@@ -14,10 +14,12 @@
     <header>Waitstaff Calculator</header>
     <div id="mealDetails">
       <p>Enter the Meal Details</p>
-      <form>Base Meal Price: $ <input ng-model="basemealprice" type="number" name="basePrice" required><br> Tax Rate: % <input type="number" ng-model="taxrate" name="taxRate" required/><br> Tip Percentage: % <input type="number" ng-model="tippercentage" name="tipPercentage"
+      <form name="leftForm" ng-submit="submit()" novalidate>Base Meal Price: $ <input ng-model="basemealprice" type="number" name="basePrice" required><br> Tax Rate: % <input type="number" ng-model="taxrate" name="taxRate" required/><br> Tip Percentage: % <input type="number" ng-model="tippercentage" name="tipPercentage"
           required/><br>
         <button type="submit">Submit</button>
-        <button type="submit">Cancel</button>
+        <br><br>
+        <div class="error" ng-show="showError">{{ formError }}</div>
+        <!-- <button type="submit">Cancel</button> -->
       </form>
 
     </div>
@@ -25,20 +27,20 @@
     <div id="customerCharges">
       <p>Customer Charges</p>
       <div class="align-right">
-        <p>Subtotal: <span>{{  vm.subtotal() }}</span></p>
-        <p>Tip: <span>{{ vm.tiprate() }}<span></p>
+        <p>Subtotal: <span ng-show="hideRight">{{  subtotal }}</span></p>
+        <p>Tip: <span ng-show="hideRight">{{ tiptotal }}<span></p>
 <div class="line"></div>
-<p>Total: {{ vm.total() }}</p>
+<p>Total: <span ng-show="hideRight">{{ total }}</span></p>
 </div>
 </div>
 
 <div id="earningsInfo"><p>My Earnings Info</p>
 <div class="align-right">
-<p>Tip Total: {{ }}</p>
+<p>Tip Total: {{ allTip }}</p>
 <p>Meal Count: {{ count }}</p>
-<p>Average Tip Per Meal: {{ }}</p>
+<p>Average Tip Per Meal: {{ averageTip }}</p>
 </div></div>
-<button>Reset</button>
+<button ng-click="resetEntire()">Reset</button>
 
 </main>
 
