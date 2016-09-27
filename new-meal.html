@@ -1,0 +1,21 @@
+<div id="mealDetails">
+  <p>Enter the Meal Details</p>
+  <form name="leftForm" ng-submit="submit()" novalidate>Base Meal Price: $ <input ng-model="basemealprice" type="number" name="basePrice" required><br> Tax Rate: % <input type="number" ng-model="taxrate" name="taxRate" required/><br> Tip Percentage: % <input type="number" ng-model="tippercentage" name="tipPercentage"
+    required/><br>
+    <button type="submit">Submit</button>
+    <br><br>
+    <div class="error" ng-show="showError">{{ formError }}</div>
+    <!-- <button type="submit">Cancel</button> -->
+  </form>
+
+</div>
+
+<div id="customerCharges">
+  <p>Customer Charges</p>
+  <div class="align-right">
+    <p>Subtotal: <span ng-show="hideRight">{{  subtotal }}</span></p>
+    <p>Tip: <span ng-show="hideRight">{{ tiptotal }}<span></p>
+    <div class="line"></div>
+    <p>Total: <span ng-show="hideRight">{{ total }}</span></p>
+  </div>
+</div>

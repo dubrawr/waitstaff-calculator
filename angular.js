@@ -1,4 +1,21 @@
-angular.module('myApp', ['ngMessages', 'ngRoute'])
+angular.module('myApp', ['ngRoute'])
+.config(['$routeProvider', function($routeProvider){
+	$routeProvider.when('/', {
+		templateUrl: '/home.html',
+		controller:'Controller',
+		controllerAs: 'vm'})
+	.when('/new-meal', {
+		templateUrl: 'new-meal.html',
+		controller: 'Controller',
+		controllerAs: 'vm'
+	}).when('/my-earnings', {
+		templateUrl: 'my-earnings.html',
+		controller: 'Controller',
+		controllerAs: 'vm'
+	}).when('error',{
+		template: '<p>Error Page Not Found</p>'
+	}).otherwise('error');
+}])
 .controller('Controller', function($scope){
 	var vm = this;
 	$scope.allTip = 0;		
@@ -42,3 +59,9 @@ angular.module('myApp', ['ngMessages', 'ngRoute'])
 	};
 });
 
+// var app = angular.module('myApp', []);
+// app.run(function($rootScope){
+// 	$rootScope.allTip += $scope.tiptotal;
+// 	$rootScope.averageTip = ($scope.allTip/$scope.count);
+// 	$rootScope.count = $scope.count;
+// });
