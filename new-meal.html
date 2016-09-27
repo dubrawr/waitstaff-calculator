@@ -13,9 +13,9 @@
 <div id="customerCharges">
   <p>Customer Charges</p>
   <div class="align-right">
-    <p>Subtotal: <span ng-show="hideRight">{{  subtotal }}</span></p>
-    <p>Tip: <span ng-show="hideRight">{{ tiptotal }}<span></p>
+    <p>Subtotal: <span>{{  subtotal() }}</span></p>
+    <p>Tip: <span>{{ tiptotal() }}<span></p>
     <div class="line"></div>
-    <p>Total: <span ng-show="hideRight">{{ total }}</span></p>
+    <p>Total: <span>{{ total() }}</span></p>
   </div>
 </div>

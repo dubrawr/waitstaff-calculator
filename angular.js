@@ -2,66 +2,81 @@ angular.module('myApp', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
 		templateUrl: '/home.html',
-		controller:'Controller',
+		controller:'homeCtrl',
 		controllerAs: 'vm'})
 	.when('/new-meal', {
 		templateUrl: 'new-meal.html',
-		controller: 'Controller',
+		controller: 'newMealCtrl',
 		controllerAs: 'vm'
 	}).when('/my-earnings', {
 		templateUrl: 'my-earnings.html',
-		controller: 'Controller',
+		controller: 'myEarningsCtrl',
 		controllerAs: 'vm'
 	}).when('error',{
 		template: '<p>Error Page Not Found</p>'
 	}).otherwise('error');
 }])
-.controller('Controller', function($scope){
+.factory('earningsService', function(){
+	return {
+		tips: [],
+		reset: function(){
+			this.tips = [];
+		}
+	};
+})
+.controller('newMealCtrl', function($scope, earningsService){
+	
 	var vm = this;
-	$scope.allTip = 0;		
-	$scope.averageTip = 0;
-
+	
+	$scope.basemealprice = 0;
+	$scope.tippercentage = 0;
+	$scope.taxrate = 0;
 	var resetFields = function(){
-	$scope.basemealprice = '';
-	$scope.tippercentage = '';
-	$scope.taxrate = '';
+		$scope.basemealprice = 0;
+		$scope.tippercentage = 0;
+		$scope.taxrate = 0;
 	};
 
-	$scope.count = 0;
-	$scope.hideRight = false;
 	$scope.showError = false;
+	$scope.tiptotal = function(){
+		return $scope.basemealprice * ($scope.tippercentage/100);
+	};
+	$scope.taxtotal = function(){
+		return $scope.basemealprice * ($scope.taxrate/100);
+	};
+	$scope.subtotal = function(){
+		return $scope.basemealprice + $scope.taxtotal();
+	};
+	$scope.total = function(){
+		return $scope.subtotal() + $scope.tiptotal();
+	};
 	$scope.submit = function(){
 		if ($scope.leftForm.$invalid){
 			$scope.showError = true;
 			$scope.formError = 'Please fill in valid inputs.';
 		} else {
-		$scope.showError = false;
-		$scope.hideRight = true;
-		$scope.count++;
-		$scope.tiptotal = $scope.basemealprice * ($scope.tippercentage/100);
-		$scope.taxtotal = $scope.basemealprice * ($scope.taxrate/100);
-		$scope.subtotal = $scope.basemealprice + $scope.taxtotal;
-		$scope.total = $scope.subtotal + $scope.tiptotal;
-		$scope.allTip += $scope.tiptotal;
-		$scope.averageTip = ($scope.allTip/$scope.count);
-		resetFields();
-
-	}
-};
-	$scope.resetEntire = function(){
-		resetFields();
-		$scope.allTip = '';
-		$scope.averageTip = '';
-		$scope.count = 0;
-		$scope.subtotal = '';
-		$scope.tiptotal = '';
-		$scope.total = '';
+			$scope.showError = false;
+			earningsService.tips.push($scope.tiptotal());
+			resetFields();
+		}
+	};
+	
+})
+.controller('homeCtrl', function(){})
+.controller('myEarningsCtrl', function($scope, earningsService){
+	$scope.allTip = function(){
+		var tipSum = earningsService.tips.reduce(function(a, b){
+			return a + b; }, 0);
+		return tipSum;
+	};
+	$scope.count = function(){
+		return earningsService.tips.length;
+	};
+	$scope.averageTip = function(){
+		return $scope.allTip()/$scope.count();
+	};
+	$scope.resetEarnings = function(){
+		earningsService.reset();
 	};
 });
 
-// var app = angular.module('myApp', []);
-// app.run(function($rootScope){
-// 	$rootScope.allTip += $scope.tiptotal;
-// 	$rootScope.averageTip = ($scope.allTip/$scope.count);
-// 	$rootScope.count = $scope.count;
-// });
