@@ -1,4 +1,4 @@
-angular.module('myApp', ['ngMessages'])
+angular.module('myApp', ['ngMessages', 'ngRoute'])
 .controller('Controller', function($scope){
 	var vm = this;
 	$scope.allTip = 0;		

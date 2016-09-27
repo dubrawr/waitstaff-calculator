@@ -1,0 +1,21 @@
+{
+  "name": "waitstaff-calculator",
+  "homepage": "https://github.com/dubrawr/waitstaff-calculator",
+  "authors": [
+    "Deb <deborah.tsao@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.5.8"
+  }
+}
