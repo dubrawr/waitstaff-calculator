@@ -1,7 +1,7 @@
-angular.module('myApp', ['ngRoute'])
+angular.module('myApp', ['ngRoute', 'ngAnimate'])
 .config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
-		templateUrl: '/home.html',
+		templateUrl: 'home.html',
 		controller:'homeCtrl',
 		controllerAs: 'vm'})
 	.when('/new-meal', {
@@ -12,10 +12,23 @@ angular.module('myApp', ['ngRoute'])
 		templateUrl: 'my-earnings.html',
 		controller: 'myEarningsCtrl',
 		controllerAs: 'vm'
-	}).when('error',{
+	}).when('/error', {
 		template: '<p>Error Page Not Found</p>'
 	}).otherwise('error');
 }])
+.run(function($rootScope, $location, $timeout) {
+    $rootScope.$on('$routeChangeError', function() {
+        $location.path("/error");
+    });
+    $rootScope.$on('$routeChangeStart', function() {
+        $rootScope.isLoading = true;
+    });
+    $rootScope.$on('$routeChangeSuccess', function() {
+      $timeout(function() {
+        $rootScope.isLoading = false;
+      }, 1000);
+    });
+})
 .factory('earningsService', function(){
 	return {
 		tips: [],
